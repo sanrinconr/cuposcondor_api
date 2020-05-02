@@ -18,6 +18,8 @@ virtualenv env
 nano env/bin/activate
 ```
 - Agregar al final
-``export FLASK_APP="entrypoint.py"``
-``export FLASK_ENV="development"``
-``export APP_SETTINGS_MODULE="config.local"``
+~~~
+export FLASK_APP="entrypoint.py"
+export FLASK_ENV="development"
+export APP_SETTINGS_MODULE="config.local"
+~~~
