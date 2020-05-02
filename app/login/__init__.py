@@ -8,4 +8,4 @@ login_bp = Blueprint(
     static_url_path="/static/login",
 )
 
-from . import routes, api, login
+from . import api, login

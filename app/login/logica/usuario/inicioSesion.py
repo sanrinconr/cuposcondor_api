@@ -36,6 +36,14 @@ class inicioSesion:
                 }
                 return jsonify(dict)
         except exc.OperationalError as e:
+            if e.orig.args[0] == 2003:
+                dict = {
+                    "usuario": usuarioPOST,
+                    "valido": "no",
+                    "error": "base de datos no disponible",
+                    "codigo": "2003",
+                }
+                return jsonify(dict)
             return str(e.orig.args[0])
             # En caso de que se quiera ver de que trata el error
             # print(e.orig.args[1])
