@@ -23,3 +23,11 @@ export FLASK_APP="entrypoint.py"
 export FLASK_ENV="development"
 export APP_SETTINGS_MODULE="config.local"
 ~~~
+- Refrescar el entorno
+ ```sh
+ source env/bin/activate
+ ```
+ - Lanzar aplicacion con
+  ```sh
+  flask run
+  ```
