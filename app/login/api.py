@@ -5,7 +5,6 @@ from flask import request
 # db
 from .logica.usuario.inicioSesion import inicioSesion
 from .logica.usuario.registro import registro
-from .logica.sesion.manejo import sesion
 
 # Blueprint
 from . import login_bp

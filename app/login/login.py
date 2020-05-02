@@ -18,7 +18,8 @@ def validarUsuario(usuario=None, contrasena=None):
     contrasena = request.args.get("password")
     resultado = validarUsuarioAPI(usuario, contrasena)
     if resultado.get_json()["valido"] == "si":
-        sesion.crearSesion(usuario)
+        sesion.expirar()
+        sesion.crear(usuario)
     return resultado
 
 
