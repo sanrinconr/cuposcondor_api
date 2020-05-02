@@ -26,13 +26,13 @@ class inicioSesion:
             if len(resultSet) == 1:
                 dict = {
                     "usuario": usuarioPOST,
-                    "valido": "SI",
+                    "valido": "si",
                 }
                 return jsonify(dict)
             else:
                 dict = {
                     "usuario": usuarioPOST,
-                    "valido": "NO",
+                    "valido": "no",
                 }
                 return jsonify(dict)
         except exc.OperationalError as e:
