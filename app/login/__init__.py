@@ -1,5 +1,6 @@
 from flask import Blueprint
 
+# El blueprint login
 login_bp = Blueprint(
     "login",
     __name__,
