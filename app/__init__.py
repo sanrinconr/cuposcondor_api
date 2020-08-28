@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
+
 # Instancia de la base de datos a usar
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -34,11 +35,6 @@ def create_app(settings_module="config.local"):
 
     #    from .dashboard import dashboard_bp
 
-<<<<<<< Updated upstream
-    #    app.register_blueprint(dashboard_bp)
-
-    return app
-=======
     app.register_blueprint(dashboard_bp)
     """
 
@@ -46,11 +42,10 @@ def create_app(settings_module="config.local"):
     with app.app_context():
         # Se limpia toda la base de datos, usada por ahora para
         # trabajar la estructura, se debe quitar
-        # db.drop_all()
+        db.drop_all()
 
         # Se crean las tablas pues se importo el blueprint de api
         # el cual a su vez importa el login y finalmente se importa
         # el modelo usuario c:
         db.create_all()
         return app
->>>>>>> Stashed changes
