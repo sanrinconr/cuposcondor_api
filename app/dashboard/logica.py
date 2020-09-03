@@ -62,6 +62,31 @@ class Materia:
         else:
             abort(404, error_message="Materia no encontrada")
 
+    @staticmethod
+    @jwt_required
+    def eliminar(id_materia):
+        materia = MateriaDAO.get_materia_por_id(id_materia, get_jwt_identity())
+        if materia:
+            res = materia.eliminar()
+            if res == True:
+                return {"nombre": materia.nombre, "eliminada": True}
+            elif isinstance(res, list):
+                return {
+                    "nombre": materia.nombre,
+                    "eliminada": False,
+                    "error": res[0],
+                    "descripcion": res[1],
+                }
+            else:
+                return {
+                    "nombre": materia.nombre,
+                    "eliminada": False,
+                    "error": "0000",
+                    "descripcion": "Desconocido",
+                }
+        else:
+            abort(404, error_message="Materia no encontrada")
+
 
 class Materias:
     @staticmethod
@@ -70,7 +95,7 @@ class Materias:
         materias = MateriaDAO.get_materias_usuario(get_jwt_identity())
         salida = []
         for ele in materias:
-            salida.append({"nombre": ele.nombre, "url": ele.url})
+            salida.append({"id": ele.id_materia, "nombre": ele.nombre, "url": ele.url})
 
         return jsonify(salida)
 

@@ -53,6 +53,14 @@ class MateriaDAO(db.Model):
         except Exception as e:
             return e.orig.args
 
+    def eliminar(self):
+        try:
+            db.session.delete(self)
+            db.session.commit()
+            return True
+        except Exception as e:
+            return e.orig.args
+
     @staticmethod
     def get_materia_por_id(id, alias):
         return MateriaDAO.query.filter_by(alias=alias, id_materia=id).first()
