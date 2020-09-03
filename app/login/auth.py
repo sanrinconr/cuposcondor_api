@@ -21,7 +21,7 @@ class LoginApi(Resource):
         # En caso contraro se procede a iniciar sesion normal
         try:
             if body["refresh_token"] == "True":
-                return Usuario.refresh_token(body)
+                return Usuario.refresh_token()
             raise KeyError
         except KeyError:
             return Usuario.iniciar_sesion(body)

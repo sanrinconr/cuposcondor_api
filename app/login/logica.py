@@ -71,8 +71,8 @@ class Usuario:
                 if usuario:
                     valido = usuario.validar_contrasena(contrasena)
                     if valido:
-                        access_token = create_access_token(json)
-                        refresh_token = create_refresh_token(json)
+                        access_token = create_access_token(identity=alias)
+                        refresh_token = create_refresh_token(identity=alias)
 
                         salida = jsonify({"alias": alias, "logueado": True,})
                         set_access_cookies(salida, access_token)
@@ -107,30 +107,8 @@ class Usuario:
             }
 
     @jwt_refresh_token_required
-    def refresh_token(json):
-        access_token = create_access_token(json)
+    def refresh_token():
+        access_token = create_access_token(identity=get_jwt_identity())
         resp = jsonify({"nuevo_token_generado": True, "token": access_token})
         set_access_cookies(resp, access_token)
         return resp
-
-    # Se define que sera la identidad
-    @jwt.user_identity_loader
-    def user_identity_lookup(json):
-        print("wefwe: " + str(get_jwt_identity()))
-        if get_jwt_identity():
-            print("weweoifjweoifjfwe: " + str(get_jwt_identity()))
-            return get_jwt_identity()
-        else:
-            print("wefwe:weoifjweoif")
-            return json["alias"]
-
-    # Se agrega informacion al token, se llama cuando se utiliza create_access_token
-    @jwt.user_claims_loader
-    def add_claims_to_access_token(json):
-        if json:
-            ip = json["ip"] if "ip" in json else None
-            userAgent = json["user-agent"] if "user-agent" in json else None
-        else:
-            ip = None
-            userAgent = None
-        return {"ip": ip, "user-agent": userAgent}
