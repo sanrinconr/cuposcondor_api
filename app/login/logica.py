@@ -69,21 +69,31 @@ class Usuario:
             if contrasena:
                 usuario = UsuarioDAO.get_by_nombre(alias)
                 if usuario:
-                    valido = usuario.validar_contrasena(contrasena)
-                    if valido:
-                        access_token = create_access_token(identity=alias)
-                        refresh_token = create_refresh_token(identity=alias)
+                    # Si todo va bien se retorna true, de lo contrario se retorna la tupla que contiene numero y error
+                    if isinstance(usuario, tuple) == False:
+                        print("wefwefewfwewfweowjefoiwe")
+                        valido = usuario.validar_contrasena(contrasena)
+                        if valido:
+                            access_token = create_access_token(identity=alias)
+                            refresh_token = create_refresh_token(identity=alias)
 
-                        salida = jsonify({"alias": alias, "logueado": True,})
-                        set_access_cookies(salida, access_token)
-                        set_refresh_cookies(salida, refresh_token)
-                        return salida
+                            salida = jsonify({"alias": alias, "logueado": True,})
+                            set_access_cookies(salida, access_token)
+                            set_refresh_cookies(salida, refresh_token)
+                            return salida
+                        else:
+                            return {
+                                "alias": alias,
+                                "logueado": False,
+                                "Error": "0000",
+                                "Descripcion": "Contrasena incorrecta",
+                            }
                     else:
                         return {
                             "alias": alias,
                             "logueado": False,
-                            "Error": "0000",
-                            "Descripcion": "Contrasena incorrecta",
+                            "Error": usuario[0],
+                            "Descripcion": usuario[1],
                         }
                 else:
                     return {

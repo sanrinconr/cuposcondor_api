@@ -65,7 +65,10 @@ class UsuarioDAO(db.Model, UserMixin):
     @staticmethod
     # Se obtiene la instancia usuario a partir del nombre
     def get_by_nombre(nombre):
-        return UsuarioDAO.query.get(nombre)
+        try:
+            return UsuarioDAO.query.get(nombre)
+        except Exception as e:
+            return e.orig.args
 
     @staticmethod
     # Se valida si un nombre es admin
