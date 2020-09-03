@@ -1,11 +1,32 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify
+from app import api, jwt
+from .consultas import MateriaApi, CupoApi, MateriasApi
 
-dashboard_bp = Blueprint(
-    "dashboard",
-    __name__,
-    template_folder="templates",
-    static_folder="static",
-    static_url_path="/static/dashboard",
-)
+# El blueprint api
+dashboard_bp = Blueprint("dashboard", __name__)
 
-from . import routes
+api.add_resource(MateriaApi, "/api/materia/")
+api.add_resource(MateriasApi, "/api/materias/")
+api.add_resource(CupoApi, "/api/cupos/buscar/")
+
+# CUSTOMIZACION DE ERRORES RESPECTO A LOS TOKENS
+@jwt.expired_token_loader
+def callback_token_expirado(expired_token):
+    return (
+        jsonify(
+            {
+                "status": 401,
+                "sub_status": 42,
+                "msg": "El token de acceso a expirado, realizar login",
+            }
+        ),
+        401,
+    )
+
+
+@jwt.unauthorized_loader
+def callback_sin_token(tipo):
+    return (
+        jsonify({"status": 401, "msg": "No se envio ningun token de acceso",}),
+        401,
+    )

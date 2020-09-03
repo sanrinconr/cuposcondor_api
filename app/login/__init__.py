@@ -1,12 +1,9 @@
 from flask import Blueprint
+from app import api
+from .auth import RegistrarApi, LoginApi
 
-# El blueprint login
-login_bp = Blueprint(
-    "login",
-    __name__,
-    template_folder="templates",
-    static_folder="static",
-    static_url_path="/static/login",
-)
+# El blueprint api
+login_bp = Blueprint("login", __name__)
 
-from . import api, login
+api.add_resource(RegistrarApi, "/api/auth/registrar/")
+api.add_resource(LoginApi, "/api/auth/login/")
