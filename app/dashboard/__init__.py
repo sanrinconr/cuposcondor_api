@@ -22,11 +22,3 @@ def callback_token_expirado(expired_token):
         ),
         401,
     )
-
-
-@jwt.unauthorized_loader
-def callback_sin_token(tipo):
-    return (
-        jsonify({"status": 401, "msg": "No se envio ningun token de acceso",}),
-        401,
-    )

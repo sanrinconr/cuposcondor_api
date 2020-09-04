@@ -1,12 +1,16 @@
-import datetime
+from .default import *
 
+# DB
+USUARIODB = "?"
+CONTRASENADB = "?"
+# JWT
 SECRET_KEY = "weofijweofj34wfjw8uf29fuw9"
 JSON_SORT_KEYS = False
 JWT_SECRET_KEY = "t1NP63m4wnBg6nyHYKfmc2TpCOGI4nss"
-JWT_TOKEN_LOCATION = ["headers", "cookies"]
+JWT_TOKEN_LOCATION = ["cookies"]
 JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(seconds=1800)
-JWT_COOKIE_SECURE = False
+JWT_COOKIE_SECURE = True
 JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(days=2)
-JWT_COOKIE_CSRF_PROTECT = False
+JWT_COOKIE_CSRF_PROTECT = True
 JWT_ACCESS_CSRF_HEADER_NAME = "X-CSRF-TOKEN-ACCESS"
 JWT_REFRESH_CSRF_HEADER_NAME = "X-CSRF-TOKEN-REFRESH"

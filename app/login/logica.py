@@ -77,7 +77,14 @@ class Usuario:
                             access_token = create_access_token(identity=alias)
                             refresh_token = create_refresh_token(identity=alias)
 
-                            salida = jsonify({"alias": alias, "logueado": True,})
+                            salida = jsonify(
+                                {
+                                    "alias": alias,
+                                    "logueado": True,
+                                    "token": access_token,
+                                    "refresh_token": refresh_token,
+                                }
+                            )
                             set_access_cookies(salida, access_token)
                             set_refresh_cookies(salida, refresh_token)
                             return salida

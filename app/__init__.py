@@ -18,9 +18,14 @@ def create_app(settings_module="config.local"):
 
     ##SE CARGA LA CONFIGURACION CONFIGURACION
     app.config.from_object(settings_module)
-    app.config[
-        "SQLALCHEMY_DATABASE_URI"
-    ] = "mysql+pymysql://root:12345@localhost:3306/cuposcondor"
+    print()
+    app.config["SQLALCHEMY_DATABASE_URI"] = (
+        "mysql+pymysql://"
+        + app.config["USUARIODB"]
+        + ":"
+        + app.config["CONTRASENADB"]
+        + "@localhost:3306/cuposcondor"
+    )
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     # Se carga el contexto app en db y api
