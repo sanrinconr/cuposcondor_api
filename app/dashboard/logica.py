@@ -92,12 +92,16 @@ class Materias:
     @staticmethod
     @jwt_required
     def obtener():
-        materias = MateriaDAO.get_materias_usuario(get_jwt_identity())
-        salida = []
-        for ele in materias:
-            salida.append({"id": ele.id_materia, "nombre": ele.nombre, "url": ele.url})
-
-        return jsonify(salida)
+        try:
+            materias = MateriaDAO.get_materias_usuario(get_jwt_identity())
+            salida = []
+            for ele in materias:
+                salida.append(
+                    {"id": ele.id_materia, "nombre": ele.nombre, "url": ele.url}
+                )
+            return jsonify(salida)
+        except Exception as e:
+            return e.orig.args
 
 
 class Cupo:
@@ -106,5 +110,5 @@ class Cupo:
         materia = Materia.obtener(id_materia)
         if "url" in materia:
             # Aqui se debe implementar todo el curl
-            return False
+            return materia
         return materia

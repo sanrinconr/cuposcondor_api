@@ -22,3 +22,17 @@ def callback_token_expirado(expired_token):
         ),
         401,
     )
+
+
+@jwt.unauthorized_loader
+def callback_token_no_enviado(self):
+    return (
+        jsonify(
+            {
+                "status": 401,
+                "sub_status": 42,
+                "msg": "No se envio token de acceso, realizar login",
+            }
+        ),
+        401,
+    )
