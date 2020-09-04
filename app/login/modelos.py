@@ -11,11 +11,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from app import db
 
-from flask_login import UserMixin
 from sqlalchemy.exc import IntegrityError
 
 # Distintos modelos usados de representacion para la base de datos
-class UsuarioDAO(db.Model, UserMixin):
+class UsuarioDAO(db.Model):
     __tablename__ = "usuario"
     # Modelo del usuario de la base de datos
     alias = db.Column(db.String(80), primary_key=True)
