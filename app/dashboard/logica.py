@@ -6,6 +6,9 @@ from app import jwt
 
 from flask import jsonify
 
+# Web scrapping
+from .scrapping.pagina import Consulta, Analisis
+
 
 class Materia:
     @staticmethod
@@ -68,7 +71,11 @@ class Materia:
     def obtener(id_materia):
         materia = MateriaDAO.get_materia_por_id(id_materia, get_jwt_identity())
         if materia:
-            salida = {"nombre": materia.nombre, "url": materia.url}
+            salida = {
+                "nombre": materia.nombre,
+                "url": materia.url,
+                "grupo": materia.grupo,
+            }
             return salida
         else:
             abort(404, error_message="Materia no encontrada")
@@ -125,6 +132,6 @@ class Cupo:
     def buscar(id_materia):
         materia = Materia.obtener(id_materia)
         if "url" in materia:
-            # Aqui se debe implementar todo el curl
-            return materia
+            html = Consulta.getPagina(materia["url"])
+            return str(html.text)
         return materia
