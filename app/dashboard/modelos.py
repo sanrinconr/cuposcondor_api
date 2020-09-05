@@ -27,6 +27,7 @@ class MateriaDAO(db.Model):
     alias = db.Column(db.String(80), db.ForeignKey("usuario.alias"))
     nombre = db.Column(db.String(80), nullable=False)
     url = db.Column(db.String(1000), nullable=False)
+    grupo = db.Column(db.String(10), nullable=False)
     fecha_creacion = db.Column(
         db.DateTime, default=datetime.datetime.now, nullable=False
     )
@@ -37,10 +38,11 @@ class MateriaDAO(db.Model):
     )
     """
     # Constructor de una materia
-    def __init__(self, nombre, url, alias):
+    def __init__(self, nombre, url, grupo, alias):
         self.nombre = nombre
         self.url = url
         self.alias = alias
+        self.grupo = grupo
 
     # Guardar la materia actual en la db
     def guardar(self):

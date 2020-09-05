@@ -15,26 +15,37 @@ class Materia:
         # Se intentan obtener los datos del json
         nombre = json["nombre"] if "nombre" in json else None
         url = json["url"] if "url" in json else None
+        grupo = json["grupo"] if "grupo" in json else None
 
         # Si nombre no es none
         if nombre:
             # Si url no es none
             if url:
-                # Se obtiene la identidad actual
-                alias = get_jwt_identity()
-                # Resultado del ingreso en la db
-                res = MateriaDAO(nombre, url, alias).guardar()
-                if res == True:
-                    return {"materia": nombre, "url": url, "registrada": True}
-                # En caso de que retorne algun error la db
+                if grupo:
+                    # Se obtiene la identidad actual
+                    alias = get_jwt_identity()
+                    # Resultado del ingreso en la db
+                    res = MateriaDAO(nombre, url, grupo, alias).guardar()
+                    if res == True:
+                        return {"materia": nombre, "url": url, "registrada": True}
+                    # En caso de que retorne algun error la db
+                    else:
+                        return {
+                            "materia": nombre,
+                            "url": url,
+                            "registrada": False,
+                            "Error": res[0],
+                            "Descripcion": res[1],
+                        }
                 else:
                     return {
                         "materia": nombre,
                         "url": url,
                         "registrada": False,
-                        "Error": res[0],
-                        "Descripcion": res[1],
+                        "Error": "0000",
+                        "Descripcion": "No se ingreso el grupo a buscar",
                     }
+
             else:
                 return {
                     "materia": nombre,
@@ -97,7 +108,12 @@ class Materias:
             salida = []
             for ele in materias:
                 salida.append(
-                    {"id": ele.id_materia, "nombre": ele.nombre, "url": ele.url}
+                    {
+                        "id": ele.id_materia,
+                        "nombre": ele.nombre,
+                        "url": ele.url,
+                        "grupo": ele.grupo,
+                    }
                 )
             return jsonify(salida)
         except Exception as e:
