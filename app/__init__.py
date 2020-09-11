@@ -48,7 +48,7 @@ def create_app(settings_module="config.local"):
     db.init_app(app)
     api.init_app(app)
     jwt.init_app(app)
-    cors.init_app(app, origins=["http://localhost:8080"])
+    cors.init_app(app, origins=["http://localhost:8080"], supports_credentials=True)
 
     # Generacion automatica de las tablas
     with app.app_context():

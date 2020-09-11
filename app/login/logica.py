@@ -15,7 +15,13 @@ import datetime
 
 class Usuario:
     @staticmethod
-    def registrarse(alias=None, contrasena=None):
+    def registrarse(json):
+        if json:
+            alias = json["alias"] if "alias" in json else None
+            contrasena = json["contrasena"] if "contrasena" in json else None
+        else:
+            alias = None
+            contrasena = None
         if alias:
             if contrasena:
                 usuario = UsuarioDAO(alias, contrasena)
@@ -30,8 +36,8 @@ class Usuario:
                     return {
                         "alias": alias,
                         "registrado": False,
-                        # "Error": res[0] if str(res[0]) == "1062" else "0000",
-                        "Error": res[0],
+                        # "error": res[0] if str(res[0]) == "1062" else "0000",
+                        "error": res[0],
                         # "Descripcion": res[1] if str(res[0]) == "1062" else "Desconocido",
                         "Descripcion": res[1],
                     }
@@ -39,20 +45,20 @@ class Usuario:
                     return {
                         "alias": alias,
                         "registrado": False,
-                        "Error": res[0],
+                        "error": res[0],
                         "Descripcion": res[1],
                     }
             else:
                 return {
                     "alias": alias,
                     "registrado": False,
-                    "Error": "0000",
+                    "error": "0000",
                     "Descripcion": "No se envio contrasena",
                 }
         else:
             return {
                 "registrado": False,
-                "Error": "0000",
+                "error": "0000",
                 "Descripcion": "No se envio alias",
             }
 
@@ -92,34 +98,34 @@ class Usuario:
                             return {
                                 "alias": alias,
                                 "logueado": False,
-                                "Error": "0000",
+                                "error": "0000",
                                 "Descripcion": "Contrasena incorrecta",
                             }
                     else:
                         return {
                             "alias": alias,
                             "logueado": False,
-                            "Error": usuario[0],
+                            "error": usuario[0],
                             "Descripcion": usuario[1],
                         }
                 else:
                     return {
                         "alias": alias,
                         "logueado": False,
-                        "Error": "0000",
+                        "error": "0000",
                         "Descripcion": "El usuario no existe",
                     }
             else:
                 return {
                     "alias": alias,
                     "logueado": False,
-                    "Error": "0000",
+                    "error": "0000",
                     "Descripcion": "No se envio contrasena",
                 }
         else:
             return {
                 "logueado": False,
-                "Error": "0000",
+                "error": "0000",
                 "Descripcion": "No se envio alias",
             }
 

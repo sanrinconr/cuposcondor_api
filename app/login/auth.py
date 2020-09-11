@@ -1,15 +1,24 @@
 from flask_restful import Resource
 
 
-from flask import request
+from flask import request, jsonify
 
 from .logica import Usuario
 
 
 class RegistrarApi(Resource):
     def post(self):
-        body = request.get_json()
-        return Usuario.registrarse(body["alias"], body["contrasena"])
+        try:
+            body = request.get_json(force=True)
+            return Usuario.registrarse(body)
+        except:
+            return jsonify(
+                {
+                    "registrado": False,
+                    "Error": "0000",
+                    "Descripcion": "desconocido",
+                }
+            )
 
 
 class LoginApi(Resource):
