@@ -7,7 +7,8 @@ from app import jwt
 from flask import jsonify
 
 # Web scrapping
-from .scrapping.pagina import Consulta, Analisis
+from .scrapping.pagina import Consulta
+from bs4 import BeautifulSoup
 
 
 class Materia:
@@ -130,8 +131,55 @@ class Materias:
 class Cupo:
     @staticmethod
     def buscar(id_materia):
-        materia = Materia.obtener(id_materia)
-        if "url" in materia:
-            html = Consulta.getPagina(materia["url"])
-            return str(html.text)
-        return materia
+        try:
+            materia = Materia.obtener(id_materia)
+            if "url" in materia:
+                html = Consulta.getPagina(materia["url"])
+                soup = BeautifulSoup(html, "lxml")
+                print(soup)
+                grupo = materia["grupo"]
+                filas = soup.find_all(
+                    "tr", onmouseover="this.style.background='#F4F4EA'"
+                )
+                for fila in filas:
+                    hijos = fila.findChildren("td")
+                    if hijos[0].get_text(strip=True) == grupo:
+                        boton = hijos[10].findChildren("button")
+                        if len(boton) == 0:
+                            return {
+                                "materia": materia["nombre"],
+                                "cupo": False,
+                                "estado": "Sin cupo",
+                                "disponibles": hijos[9].get_text(strip=True),
+                                "cupos": hijos[8].get_text(strip=True),
+                            }
+                        else:
+                            return {
+                                "materia": materia["nombre"],
+                                "cupo": False,
+                                "estado": "Sin cupo",
+                                "disponibles": hijos[9].get_text(strip=True),
+                                "cupos": hijos[8].get_text(strip=True),
+                            }
+
+                # Si luego de recorrer todo el for no pudo retornar nada significa que el grupo nunca fue encontrado
+                return {
+                    "materia": materia["nombre"],
+                    "cupo": "Error",
+                    "error": "0000",
+                    "estado": "No se pudo encontrar el grupo",
+                }
+            # En caso de que no se pueda obtener el json de materia (cosa que nunca deberia de pasar, de lo contrario estaria fallando la funcion llamada)
+            return {
+                "materia": materia["nombre"],
+                "cupo": "Error",
+                "error": "0000",
+                "estado": "No se envio un url",
+            }
+        # En caso de no poder obtener la materia (normalmente db desconectada)
+        except Exception as e:
+            return {
+                "cupo": "Error",
+                "error": e.orig.args[0],
+                "estado": e.orig.args[1],
+            }
