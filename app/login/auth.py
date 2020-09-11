@@ -14,14 +14,21 @@ class RegistrarApi(Resource):
 
 class LoginApi(Resource):
     def post(self):
-        body = request.get_json()
-        body.update({"ip": request.remote_addr})
-
-        # En caso de que refresh_token este definido en true se hace el refresco del token
-        # En caso contraro se procede a iniciar sesion normal
         try:
-            if body["refresh_token"] == "True":
-                return Usuario.refresh_token()
-            raise KeyError
-        except KeyError:
-            return Usuario.iniciar_sesion(body)
+            print(str(request.get_json(force=True)))
+            body = request.get_json()
+            body.update({"ip": request.remote_addr})
+
+            # En caso de que refresh_token este definido en true se hace el refresco del token
+            # En caso contraro se procede a iniciar sesion normal
+            try:
+                if body["refresh_token"] == "True":
+                    return Usuario.refresh_token()
+                raise KeyError
+            except KeyError:
+                return Usuario.iniciar_sesion(body)
+        except:
+            return {
+                "logueado": False,
+                "error": "desconocido",
+            }
