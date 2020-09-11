@@ -38,6 +38,10 @@ def create_app(settings_module="config.local"):
 
     app.register_blueprint(dashboard_bp)
 
+    from .misc import misc_bp
+
+    app.register_blueprint(misc_bp)
+
     db.init_app(app)
     api.init_app(app)
     jwt.init_app(app)
