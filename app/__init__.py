@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 # Instancia de la base de datos a usar
 db = SQLAlchemy()
@@ -9,6 +10,8 @@ db = SQLAlchemy()
 api = Api()
 
 jwt = JWTManager()
+
+cors = CORS()
 
 
 def create_app(settings_module="config.local"):
@@ -45,6 +48,7 @@ def create_app(settings_module="config.local"):
     db.init_app(app)
     api.init_app(app)
     jwt.init_app(app)
+    cors.init_app(app, origins=["http://localhost:8080"])
 
     # Generacion automatica de las tablas
     with app.app_context():
