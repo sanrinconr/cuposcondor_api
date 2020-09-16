@@ -144,7 +144,6 @@ class Cupo:
             if "url" in materia:
                 html = Consulta.getPagina(materia["url"])
                 soup = BeautifulSoup(html, "lxml")
-                print(soup)
                 grupo = materia["grupo"]
                 filas = soup.find_all(
                     "tr", onmouseover="this.style.background='#F4F4EA'"
