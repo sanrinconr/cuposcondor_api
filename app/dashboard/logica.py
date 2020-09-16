@@ -164,8 +164,8 @@ class Cupo:
                         else:
                             return {
                                 "materia": materia["nombre"],
-                                "cupo": False,
-                                "estado": "Sin cupo",
+                                "cupo": True,
+                                "estado": "Con cupo",
                                 "disponibles": hijos[9].get_text(strip=True),
                                 "cupos": hijos[8].get_text(strip=True),
                             }
