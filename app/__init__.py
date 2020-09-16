@@ -50,7 +50,7 @@ def create_app(settings_module="config.local"):
     jwt.init_app(app)
     cors.init_app(
         app,
-        origins=["*"],
+        origins=["http://localhost:8080"],
         supports_credentials=True,
     )
 

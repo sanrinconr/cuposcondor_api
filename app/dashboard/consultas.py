@@ -5,7 +5,7 @@ from flask import request
 
 class MateriaApi(Resource):
     def put(self):
-        body = request.get_json()
+        body = request.get_json(force=True)
         return Materia.agregar(body)
 
     def get(self):
