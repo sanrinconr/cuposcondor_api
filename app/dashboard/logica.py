@@ -83,28 +83,36 @@ class Materia:
 
     @staticmethod
     @jwt_required
-    def eliminar(id_materia):
-        materia = MateriaDAO.get_materia_por_id(id_materia, get_jwt_identity())
-        if materia:
-            res = materia.eliminar()
-            if res == True:
-                return {"nombre": materia.nombre, "eliminada": True}
-            elif isinstance(res, list):
-                return {
-                    "nombre": materia.nombre,
-                    "eliminada": False,
-                    "error": res[0],
-                    "descripcion": res[1],
-                }
+    def eliminar(json):
+        id_materia = json["id_materia"] if "id_materia" in json else None
+        if id_materia:
+            materia = MateriaDAO.get_materia_por_id(id_materia, get_jwt_identity())
+            if materia:
+                res = materia.eliminar()
+                if res == True:
+                    return {"nombre": materia.nombre, "eliminada": True}
+                elif isinstance(res, list):
+                    return {
+                        "nombre": materia.nombre,
+                        "eliminada": False,
+                        "error": res[0],
+                        "descripcion": res[1],
+                    }
+                else:
+                    return {
+                        "nombre": materia.nombre,
+                        "eliminada": False,
+                        "error": "0000",
+                        "descripcion": "Desconocido",
+                    }
             else:
-                return {
-                    "nombre": materia.nombre,
-                    "eliminada": False,
-                    "error": "0000",
-                    "descripcion": "Desconocido",
-                }
+                abort(404, error_message="Materia no encontrada")
         else:
-            abort(404, error_message="Materia no encontrada")
+            return {
+                "eliminada": False,
+                "error": "0000",
+                "descripcion": "No se proporciono el id de la materia",
+            }
 
 
 class Materias:

@@ -13,8 +13,8 @@ class MateriaApi(Resource):
         return Materia.obtener(id_materia)
 
     def delete(self):
-        id_materia = request.args.get("id_materia")
-        return Materia.eliminar(id_materia)
+        body = request.get_json(force=True)
+        return Materia.eliminar(body)
 
 
 class MateriasApi(Resource):
