@@ -6,6 +6,8 @@ from flask_restful import abort
 from app import jwt
 
 from flask import jsonify
+from flask import current_app
+
 
 # Web scrapping
 from .scrapping.pagina import Consulta
@@ -26,7 +28,16 @@ class Materia:
         if nombre:
             # Si url no es none
             if url:
+                url = url.replace("view-source:", "")
                 if grupo:
+                    if validarUrl(url) == False:
+                        return {
+                            "materia": nombre,
+                            "url": url,
+                            "registrada": False,
+                            "Error": "0000",
+                            "Descripcion": "El url enviado no es valido",
+                        }
                     # Se obtiene la identidad actual
                     alias = get_jwt_identity()
                     # Resultado del ingreso en la db
@@ -192,3 +203,33 @@ class Cupo:
                 "error": e.orig.args[0],
                 "estado": e.orig.args[1],
             }
+
+
+def validarUrl(url):
+    validar_url = current_app.config.get("VALIDAR_URL")
+    longitud = False
+    dominio = False
+    curl = False
+
+    if len(url) > 530 or validar_url == False:
+        longitud = True
+    if (
+        url.find(
+            "https://estudiantes.portaloas.udistrital.edu.co/academicopro/index.php"
+        )
+        != -1
+        or desarrollo == True
+    ):
+        dominio = True
+
+        html = Consulta.getPagina(url)
+    if html:
+        if validar_url == False:
+            curl = True
+        if html.find('<table class="tabla_general">'):
+            curl = True
+
+    if longitud and dominio and curl:
+        return True
+    else:
+        return False
