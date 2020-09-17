@@ -1,6 +1,7 @@
 from .modelos import UsuarioDAO
 from app import jwt
 from flask_jwt_extended import (
+    jwt_required,
     create_access_token,
     create_refresh_token,
     set_access_cookies,
@@ -8,6 +9,7 @@ from flask_jwt_extended import (
     jwt_refresh_token_required,
     get_jwt_identity,
     get_jwt_claims,
+    unset_jwt_cookies,
 )
 from flask import jsonify
 import datetime
@@ -127,6 +129,22 @@ class Usuario:
                 "logueado": False,
                 "error": "0000",
                 "Descripcion": "No se envio alias",
+            }
+
+    @jwt_required
+    def cerrar_sesion():
+        try:
+            response = jsonify(
+                {
+                    "sesionCerrada": True,
+                }
+            )
+            unset_jwt_cookies(response)
+            return response
+        except:
+            return {
+                "sesionCerrada": False,
+                "error": "desconocido",
             }
 
     @jwt_refresh_token_required

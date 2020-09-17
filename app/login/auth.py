@@ -41,3 +41,6 @@ class LoginApi(Resource):
                 "logueado": False,
                 "error": "desconocido",
             }
+
+    def delete(self):
+        return Usuario.cerrar_sesion()
