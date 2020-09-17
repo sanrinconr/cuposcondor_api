@@ -224,7 +224,7 @@ def validarUrl(url):
     ):
         dominio = True
 
-        html = Consulta.getPagina(url)
+    html = Consulta.getPagina(url)
     if html:
         if validar_url == False:
             curl = True
