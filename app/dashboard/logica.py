@@ -1,8 +1,6 @@
 from .modelos import MateriaDAO
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
-from flask_jwt_extended.exceptions import NoAuthorizationError
-from flask_restful import abort
 from app import jwt
 
 from flask import jsonify
@@ -119,7 +117,11 @@ class Materia:
                         "descripcion": "Desconocido",
                     }
             else:
-                abort(404, error_message="Materia no encontrada")
+                return {
+                    "eliminada": False,
+                    "error": "0000",
+                    "descripcion": "Materia no encontrada",
+                }
         else:
             return {
                 "eliminada": False,
