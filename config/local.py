@@ -8,7 +8,7 @@ SECRET_KEY = "weofijweofj34wfjw8uf29fuw9"
 JSON_SORT_KEYS = False
 JWT_SECRET_KEY = "t1NP63m4wnBg6nyHYKfmc2TpCOGI4nss"
 JWT_TOKEN_LOCATION = ["cookies", "headers"]
-JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(seconds=11)
+JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(seconds=3600)
 JWT_COOKIE_SECURE = False
 JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(days=2)
 JWT_COOKIE_CSRF_PROTECT = True
