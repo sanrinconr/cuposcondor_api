@@ -1,6 +1,7 @@
 from .modelos import MateriaDAO
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
+from flask_jwt_extended.exceptions import NoAuthorizationError
 from flask_restful import abort
 from app import jwt
 
@@ -185,8 +186,15 @@ class Cupo:
             }
         # En caso de no poder obtener la materia (normalmente db desconectada)
         except Exception as e:
-            return {
-                "cupo": "Error",
-                "error": e.orig.args[0],
-                "estado": e.orig.args[1],
-            }
+            try:
+                return {
+                    "cupo": "Error",
+                    "error": e.orig.args[0],
+                    "estado": e.orig.args[1],
+                }
+            except:
+                return {
+                    "cupo": "Error",
+                    "error": "0000",
+                    "estado": "Inicia sesion",
+                }

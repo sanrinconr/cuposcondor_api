@@ -132,6 +132,8 @@ class Usuario:
     @jwt_refresh_token_required
     def refresh_token():
         access_token = create_access_token(identity=get_jwt_identity())
-        resp = jsonify({"nuevo_token_generado": True, "token": access_token})
+        resp = jsonify(
+            {"logueado": True, "nuevo_token_generado": True, "token": access_token}
+        )
         set_access_cookies(resp, access_token)
         return resp
