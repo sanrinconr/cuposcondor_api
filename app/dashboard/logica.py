@@ -80,7 +80,8 @@ class Materia:
             }
             return salida
         else:
-            abort(404, error_message="Materia no encontrada")
+            salida = {"error": "0000", "descripcion": "Materia no encontrada"}
+            return salida
 
     @staticmethod
     @jwt_required
@@ -144,57 +145,50 @@ class Cupo:
             materia = Materia.obtener(id_materia)
             if "url" in materia:
                 html = Consulta.getPagina(materia["url"])
-                soup = BeautifulSoup(html, "lxml")
-                grupo = materia["grupo"]
-                filas = soup.find_all(
-                    "tr", onmouseover="this.style.background='#F4F4EA'"
-                )
-                for fila in filas:
-                    hijos = fila.findChildren("td")
-                    if hijos[0].get_text(strip=True) == grupo:
-                        boton = hijos[10].findChildren("button")
-                        if len(boton) == 0:
-                            return {
-                                "materia": materia["nombre"],
-                                "cupo": False,
-                                "estado": "Sin cupo",
-                                "disponibles": hijos[9].get_text(strip=True),
-                                "cupos": hijos[8].get_text(strip=True),
-                            }
-                        else:
-                            return {
-                                "materia": materia["nombre"],
-                                "cupo": True,
-                                "estado": "Con cupo",
-                                "disponibles": hijos[9].get_text(strip=True),
-                                "cupos": hijos[8].get_text(strip=True),
-                            }
+                if html:
+                    soup = BeautifulSoup(html, "lxml")
+                    grupo = materia["grupo"]
+                    filas = soup.find_all(
+                        "tr", onmouseover="this.style.background='#F4F4EA'"
+                    )
+                    for fila in filas:
+                        hijos = fila.findChildren("td")
+                        if hijos[0].get_text(strip=True) == grupo:
+                            boton = hijos[10].findChildren("button")
+                            if len(boton) == 0:
+                                return {
+                                    "materia": materia["nombre"],
+                                    "cupo": False,
+                                    "estado": "Sin cupo",
+                                    "disponibles": hijos[9].get_text(strip=True),
+                                    "cupos": hijos[8].get_text(strip=True),
+                                }
+                            else:
+                                return {
+                                    "materia": materia["nombre"],
+                                    "cupo": True,
+                                    "estado": "Con cupo",
+                                    "disponibles": hijos[9].get_text(strip=True),
+                                    "cupos": hijos[8].get_text(strip=True),
+                                }
 
-                # Si luego de recorrer todo el for no pudo retornar nada significa que el grupo nunca fue encontrado
-                return {
-                    "materia": materia["nombre"],
-                    "cupo": "Error",
-                    "error": "0000",
-                    "estado": "No se pudo encontrar el grupo",
-                }
+                    # Si luego de recorrer todo el for no pudo retornar nada significa que el grupo nunca fue encontrado
+                    return {
+                        "cupo": "Error",
+                        "error": "0000",
+                        "estado": "No se pudo encontrar el grupo",
+                    }
+                else:
+                    return {
+                        "cupo": "Error",
+                        "error": "0000",
+                        "estado": "No se pudo completar la solicitud a condor",
+                    }
             # En caso de que no se pueda obtener el json de materia (cosa que nunca deberia de pasar, de lo contrario estaria fallando la funcion llamada)
-            return {
-                "materia": materia["nombre"],
-                "cupo": "Error",
-                "error": "0000",
-                "estado": "No se envio un url",
-            }
-        # En caso de no poder obtener la materia (normalmente db desconectada)
+            return materia
         except Exception as e:
-            try:
-                return {
-                    "cupo": "Error",
-                    "error": e.orig.args[0],
-                    "estado": e.orig.args[1],
-                }
-            except:
-                return {
-                    "cupo": "Error",
-                    "error": "0000",
-                    "estado": "Inicia sesion",
-                }
+            return {
+                "cupo": "Error",
+                "error": e.orig.args[0],
+                "estado": e.orig.args[1],
+            }
