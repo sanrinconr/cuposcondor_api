@@ -220,7 +220,7 @@ def validarUrl(url):
             "https://estudiantes.portaloas.udistrital.edu.co/academicopro/index.php"
         )
         != -1
-        or desarrollo == True
+        or validar_url == False
     ):
         dominio = True
 
