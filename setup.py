@@ -15,4 +15,5 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    data_files=[("config", ["config/local.py"]), (".", ["entrypoint.py"])],
 )
