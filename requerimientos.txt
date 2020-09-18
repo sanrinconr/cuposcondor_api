@@ -1,5 +1,4 @@
 aniso8601==8.0.0
-Api-cupos-condor @ file:///home/santiago/Descargas/AJA/Api_cupos_condor-1.0-py3-none-any.whl
 beautifulsoup4==4.9.1
 bs4==0.0.1
 certifi==2020.6.20
