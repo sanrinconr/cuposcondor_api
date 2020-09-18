@@ -36,6 +36,14 @@ class Materia:
                             "Error": "0000",
                             "Descripcion": "El url enviado no es valido",
                         }
+                    if existeGrupo(url, grupo) == False:
+                        return {
+                            "materia": nombre,
+                            "url": url,
+                            "registrada": False,
+                            "Error": "0000",
+                            "Descripcion": "El grupo no existe",
+                        }
                     # Se obtiene la identidad actual
                     alias = get_jwt_identity()
                     # Resultado del ingreso en la db
@@ -234,4 +242,18 @@ def validarUrl(url):
     if longitud and dominio and curl:
         return True
     else:
+        return False
+
+
+def existeGrupo(url, grupo):
+    html = Consulta.getPagina(url)
+    if html:
+        soup = BeautifulSoup(html, "lxml")
+        filas = soup.find_all("tr", onmouseover="this.style.background='#F4F4EA'")
+        for fila in filas:
+            hijos = fila.findChildren("td")
+            if hijos[0].get_text(strip=True) == grupo:
+                return True
+
+        # Si luego de recorrer todo el for no pudo retornar nada significa que el grupo nunca fue encontrado
         return False
