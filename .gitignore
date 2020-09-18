@@ -1,2 +1,6 @@
 env/
 __pycache__/
+build/
+dist/
+dokr.egg-info/
+Api_cupos_condor.egg-info/
