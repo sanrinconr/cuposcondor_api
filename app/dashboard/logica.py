@@ -246,7 +246,10 @@ def validarUrl(url):
 
 
 def existeGrupo(url, grupo):
+    validar_url = current_app.config.get("VALIDAR_URL")
     html = Consulta.getPagina(url)
+    if validar_url == False:
+        return True
     if html:
         soup = BeautifulSoup(html, "lxml")
         filas = soup.find_all("tr", onmouseover="this.style.background='#F4F4EA'")
