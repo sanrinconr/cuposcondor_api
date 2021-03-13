@@ -25,7 +25,7 @@ def create_app(settings_module="config.local"):
     print()
     # Primero usuario luego contrasena
     app.config["SQLALCHEMY_DATABASE_URI"] = (
-        "mysql+pymysql://od8eeyaj22uz1bo8:tb7gr01nfcz2ra5p@un0jueuv2mam78uv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/xaxwmccnpt1k36rv"
+        "mysql://i465n7lcbzlo7833:og454y3obtuski3n@ao9moanwus0rjiex.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/fn2lpl1rmj8sfhke"
     )
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
@@ -46,11 +46,7 @@ def create_app(settings_module="config.local"):
     db.init_app(app)
     api.init_app(app)
     jwt.init_app(app)
-    cors.init_app(
-        app,
-        origins=["https://cuposcondor.site"],
-        supports_credentials=True,
-    )
+    cors.init_app(app)
 
     # Generacion automatica de las tablas
     with app.app_context():
