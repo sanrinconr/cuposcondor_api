@@ -210,8 +210,8 @@ class Cupo:
         except Exception as e:
             return {
                 "cupo": "Error",
-                "error": e.orig.args[0],
-                "estado": e.orig.args[1],
+                "error": "Desconocido",
+                "estado": "Desconocido",
             }
 
 

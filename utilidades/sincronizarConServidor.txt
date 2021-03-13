@@ -1,1 +1,6 @@
-rsync -va /media/datos/Estudios/Proyectos/Cuposcondor/API/app /media/datos/Estudios/Proyectos/Cuposcondor/API/config /media/datos/Estudios/Proyectos/Cuposcondor/API/requerimientos.txt entrypoint.py azure:/home/ubuntu/cupos/api/
+rsync -va \
+/media/datos/Estudios/Proyectos/Cuposcondor/API/app \
+/media/datos/Estudios/Proyectos/Cuposcondor/API/config \
+/media/datos/Estudios/Proyectos/Cuposcondor/API/requerimientos.txt \
+/media/datos/Estudios/Proyectos/Cuposcondor/API/entrypoint.py \
+azure:/home/ubuntu/cupos/api/

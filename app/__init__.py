@@ -23,12 +23,9 @@ def create_app(settings_module="config.local"):
     ##SE CARGA LA CONFIGURACION CONFIGURACION
     app.config.from_object(settings_module)
     print()
+    # Primero usuario luego contrasena
     app.config["SQLALCHEMY_DATABASE_URI"] = (
-        "mysql+pymysql://"
-        + app.config["USUARIODB"]
-        + ":"
-        + app.config["CONTRASENADB"]
-        + "@localhost:3306/cuposcondor"
+        "mysql+pymysql://od8eeyaj22uz1bo8:tb7gr01nfcz2ra5p@un0jueuv2mam78uv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/xaxwmccnpt1k36rv"
     )
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
@@ -59,7 +56,7 @@ def create_app(settings_module="config.local"):
     with app.app_context():
         # Se limpia toda la base de datos, usada por ahora para
         # trabajar la estructura, se debe quitar
-        # db.drop_all()
+        #db.drop_all()
 
         # Se crean las tablas pues se importo el blueprint de api
         # el cual a su vez importa el login y finalmente se importa
